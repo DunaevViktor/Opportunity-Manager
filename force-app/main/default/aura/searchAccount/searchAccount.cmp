@@ -1,0 +1,30 @@
+<aura:component controller="AccountSearchController" implements="lightning:availableForFlowScreens">
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:attribute name="searchTerm" type="String"/>
+    <aura:attribute name="rows" type="Map[]"/>
+    <aura:attribute name="cols" type="Map[]"/>
+
+    <lightning:card title="Account Search" iconName="standard:search">
+        <div class="slds-form slds-p-around_x-small">
+            <lightning:input
+                            label="Search"
+                            variant="label-hidden"
+                            value="{!v.searchTerm}"
+                            placeholder="Search by name, phone, website, or address"
+                            onchange="{!c.onSearchTermChange}"/>
+        </div>
+    </lightning:card>
+    
+    <lightning:card title="Account List" iconName="standard:account">
+        <lightning:datatable
+                            data="{!v.rows}"
+                            columns="{!v.cols}"
+                            keyField="Id"
+                            hideCheckboxColumn="true"
+                            showRowNumberColumn="true"
+                            onrowaction="{!c.onRowAction}"/>
+    </lightning:card>
+
+
+</aura:component> 

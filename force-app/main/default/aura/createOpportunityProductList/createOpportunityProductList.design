@@ -1,0 +1,3 @@
+<design:component>
+     <design:attribute name="testAtt" Label="Test label?"/>
+</design:component>
