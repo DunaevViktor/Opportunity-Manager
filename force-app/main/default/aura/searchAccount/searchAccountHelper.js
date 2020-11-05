@@ -1,17 +1,26 @@
 ({
-    handleSearch: function( component, searchTerm ) {
-        var action = component.get( "c.searchAccounts" );
+    getAllAccounts: function(component, event, helper){
+        var action = component.get("c.getAllAccounts");
+        action.setCallback(this, function(response) {
+            this.accountsLoaded(component);
+            component.set("v.rows", response.getReturnValue());
+        });
+        $A.enqueueAction(action);
+    },
+
+    handleSearch: function(component, searchTerm){
+        var action = component.get("c.searchAccounts");
         action.setParams({
             searchTerm: searchTerm
         });
-        action.setCallback( this, function( response ) {
+        action.setCallback(this, function(response){
             this.accountsLoaded(component);
-            component.set( 'v.rows', response.getReturnValue() );
+            component.set("v.rows", response.getReturnValue());
         });
-        $A.enqueueAction( action );
+        $A.enqueueAction(action);
     },
 
-    accountsLoaded: function( component) {
+    accountsLoaded: function(component) {
         var cols = [
             {
                 'label': 'Name',
@@ -27,8 +36,23 @@
                 'label': 'Website',
                 'fieldName': 'Website',
                 'type': 'url'
+            },
+            {
+                'label': 'Action',
+                'type': 'button',
+                'typeAttributes': {
+                    'label': 'Choose',
+                    'name': 'choose_account'
+                }
             }
         ];
-        component.set( 'v.cols', cols );
-    }
+        component.set("v.cols", cols);
+    },
+
+    nextFlowScreen: function(component, event, helper){
+        var actionClicked = event.getSource().getLocalId();
+        var navigate = component.get("v.navigateFlow");
+        navigate(actionClicked);
+    },
+    
 }) 

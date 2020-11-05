@@ -7,15 +7,18 @@ public with sharing class AccountSearchController {
             List<List<SObject>> searchResults = [
                 FIND :searchTerm
                 RETURNING Account(
-                    Id, Name, Phone, Website,
-                    BillingStreet, BillingCity,
-                    BillingState, BillingPostalCode
+                    Id, Name, Phone, Website
                     ORDER BY Name
-                    LIMIT 10
                 )
             ];
             accounts = searchResults[0];
         }
         return accounts;
     }
+
+    @AuraEnabled
+    public static List<Account> getAllAccounts(){
+        return [SELECT Id, Name, Phone, Website FROM Account ORDER BY Name];
+    }
+    
 }
