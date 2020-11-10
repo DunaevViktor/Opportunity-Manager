@@ -26,4 +26,4 @@
         helper.nextFlowScreen(component, event, helper);
     },
 
-}) 
+})
