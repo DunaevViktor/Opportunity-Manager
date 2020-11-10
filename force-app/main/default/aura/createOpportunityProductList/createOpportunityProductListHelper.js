@@ -2,7 +2,7 @@
     initColumns: function(component) {
         component.set('v.columns', [
             {label: 'Opportunity Product Name', fieldName: 'Name', type: 'text'},
-            {label: 'Total Price', fieldName: 'TotalPrice', type: 'currency'},
+            {label: 'Unit Price', fieldName: 'UnitPrice', type: 'currency'},
             {label: 'Quantity', fieldName: 'Quantity', type: 'number'},
             {label: 'Action', type: 'button', typeAttributes: { label: 'Delete', name: 'delete'}}
         ]);
@@ -15,6 +15,9 @@
             if(state === "SUCCESS") {
                 component.set("v.Product", response.getReturnValue());
             }
+            else{
+                console.log("Failed with state: " + state);
+            }
         });
         $A.enqueueAction(getProductAction);
     },
@@ -25,6 +28,9 @@
             let state = response.getState();
             if(state === "SUCCESS") {
                 component.set("v.Products", response.getReturnValue());
+            }
+            else{
+                console.log("Failed with state: " + state);
             }
         });
         $A.enqueueAction(getListAction);
@@ -53,6 +59,9 @@
                     }
                 });
                 $A.enqueueAction(getProductAction);
+            }
+            else{
+                console.log("Failed with state: " + state);
             }
         });
 

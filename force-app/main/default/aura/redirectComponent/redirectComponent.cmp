@@ -1,0 +1,12 @@
+<aura:component implements="force:lightningQuickAction,lightning:availableForFlowScreens,lightning:availableForFlowActions">
+    <aura:attribute name="recordId" type="String" />
+
+    <div class="slds-align_absolute-center">
+        <h3>Entries have been successfully created!</h3>
+    </div>
+
+    <div class="slds-align_absolute-center">
+        <lightning:button label="To New Opportunity" variant="brand" onclick="{!c.redirect}"/>
+    </div>
+
+</aura:component>

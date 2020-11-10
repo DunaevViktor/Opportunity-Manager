@@ -2,8 +2,14 @@
     getAllAccounts: function(component, event, helper){
         var action = component.get("c.getAllAccounts");
         action.setCallback(this, function(response) {
-            this.accountsLoaded(component);
-            component.set("v.rows", response.getReturnValue());
+            let state = response.getState();
+            if(state === "SUCCESS"){
+                this.accountsLoaded(component);
+                component.set("v.rows", response.getReturnValue());
+            }
+            else{
+                console.log("Failed with state: " + state);
+            }
         });
         $A.enqueueAction(action);
     },
@@ -14,8 +20,14 @@
             searchTerm: searchTerm
         });
         action.setCallback(this, function(response){
-            this.accountsLoaded(component);
-            component.set("v.rows", response.getReturnValue());
+            let state = response.getState();
+            if(state === "SUCCESS"){
+                this.accountsLoaded(component);
+                component.set("v.rows", response.getReturnValue());
+            }
+            else{
+                console.log("Failed with state: " + state);
+            }
         });
         $A.enqueueAction(action);
     },

@@ -12,6 +12,6 @@ public with sharing class CreateProductListController {
 
     @AuraEnabled
     public static PricebookEntry getPricebookEntry() {
-        return [ SELECT Id FROM PricebookEntry LIMIT 1 ];
+        return [SELECT Id FROM PricebookEntry LIMIT 1];
     }
 }
