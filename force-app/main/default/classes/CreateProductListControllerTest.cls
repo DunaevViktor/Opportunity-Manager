@@ -19,15 +19,4 @@ public with sharing class CreateProductListControllerTest {
         List<OpportunityLineItem> products = CreateProductListController.createListProducts();
         System.assertEquals(0, products.size(), INVALID_AMOUNT);        
     }
-
-    @IsTest
-    static void getPricebookEntryTest() {
-        try{
-            PricebookEntry pricebook = CreateProductListController.getPricebookEntry();
-        }
-        catch(Exception er){
-            System.assertEquals('System.QueryException', er.getTypeName(),
-            'Expected exception with type System.QueryException, but got ' + er.getTypeName());
-        }
-    }
 }

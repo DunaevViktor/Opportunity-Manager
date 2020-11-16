@@ -6,6 +6,27 @@
             {label: 'Quantity', fieldName: 'Quantity', type: 'number'},
             {label: 'Action', type: 'button', typeAttributes: { label: 'Delete', name: 'delete'}}
         ]);
+
+        var cols = [
+            {'label': 'Name', 'fieldName': 'ProductName', 'type': 'text'},
+            {'label': 'Product Code', 'fieldName': 'ProductCode','type': 'text'},
+            {'label': 'UnitPrice','fieldName': 'UnitPrice','type': 'currency'}
+        ];
+        component.set("v.productColumns", cols);
+    },
+
+    //Need to add logic for mandatory selection of a product from the list.
+    initProduct2: function(component) {
+        var action = component.get("c.getAllProducts");
+        action.setCallback(this, function(response) {
+            var rows = response.getReturnValue();
+            rows.forEach(row => {
+                row.ProductName = row.Product2.Name;
+            });
+            component.set("v.products2", rows);
+        });
+        
+        $A.enqueueAction(action);
     },
 
     initProduct: function(component) {
@@ -41,31 +62,25 @@
         let products = component.get("v.Products");
         component.set("v.isEmpty", false);
 
-        let getPriceBookAction = component.get("c.getPricebookEntry");
-        getPriceBookAction.setCallback(this, function(response) {
+        product.UnitPrice = component.find("price").get("v.value");
+        var selectedProducts = component.find("productsTable").getSelectedRows();
+        product.PricebookEntryId = selectedProducts[0].Id;
+        product.Name = selectedProducts[0].ProductName;
+        products.push(product);
+        component.set("v.Products", products);
+        
+        this.setEmptyProduct(component);
+    },
+
+    setEmptyProduct: function(component){
+        let getProductAction = component.get("c.createProduct");
+        getProductAction.setCallback(this, function(response) {
             let state = response.getState();
             if(state === "SUCCESS") {
-
-                product.PricebookEntryId = response.getReturnValue().Id;
-
-                products.push(product);
-                component.set("v.Products", products);
-
-                let getProductAction = component.get("c.createProduct");
-                getProductAction.setCallback(this, function(response) {
-                    let state = response.getState();
-                    if(state === "SUCCESS") {
-                        component.set("v.Product", response.getReturnValue());
-                    }
-                });
-                $A.enqueueAction(getProductAction);
-            }
-            else{
-                console.log("Failed with state: " + state);
+                component.set("v.Product", response.getReturnValue());
             }
         });
-
-        $A.enqueueAction(getPriceBookAction);
+        $A.enqueueAction(getProductAction);
     },
 
     deleteProduct: function(component, event) {
