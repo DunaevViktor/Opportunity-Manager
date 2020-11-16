@@ -19,4 +19,10 @@ public with sharing class CreateProductListControllerTest {
         List<OpportunityLineItem> products = CreateProductListController.createListProducts();
         System.assertEquals(0, products.size(), INVALID_AMOUNT);        
     }
+
+    @IsTest
+    static void getAllProductsTest(){
+        List<PricebookEntry> pb = CreateProductListController.getAllProducts();
+        System.assertEquals(0, pb.size(), INVALID_AMOUNT);
+    }
 }
