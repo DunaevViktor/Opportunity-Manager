@@ -17,6 +17,12 @@
 
     initProduct2: function(component) {
         var action = component.get("c.getAllProducts");
+        var PriceBookID = component.get("v.PriceBookID");
+
+        action.setParams({
+            priceBookId: PriceBookID
+        });
+
         action.setCallback(this, function(response) {
             var rows = response.getReturnValue();
             rows.forEach(row => {
