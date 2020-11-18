@@ -17,5 +17,4 @@ public with sharing class CreateProductListController {
                 WHERE Pricebook2Id IN (SELECT Id FROM PriceBook2 WHERE Id = :priceBookId)
                 ORDER BY Product2.Name ASC];
     }
-
 }
