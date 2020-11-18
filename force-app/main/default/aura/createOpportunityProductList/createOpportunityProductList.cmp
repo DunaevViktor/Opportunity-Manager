@@ -6,6 +6,8 @@
     <aura:attribute name="isEmpty" type="Boolean" default="True"/>
     <aura:attribute name="products2" type="Map[]"/>
     <aura:attribute name="productColumns" type="Map[]"/>
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="message" type="String"/>
 
     <aura:handler  name="init" value="{!this}" action="{!c.doInit}"/>
 
@@ -17,6 +19,13 @@
                             keyField="Id"
                             maxRowSelection="1"
                             onrowselection="{!c.selectProduct}"/>
+
+        <aura:if isTrue="{!v.showError}">
+            <div class="slds-align_absolute-center slds-text-color_error">
+                <br/>
+                {!v.message}
+            </div>
+        </aura:if>
     </lightning:card>
 
         <lightning:card title="Create Product">
@@ -24,7 +33,7 @@
             <lightning:input aura:id="price" type="number" 
                             label="Total Price" 
                             formatter="currency" step="0.01" min="0.01" max="1000000" required="true"/>
-            <lightning:input type="number" 
+            <lightning:input aura:id="quantity" type="number" 
                             label="Quantity" value="{!v.Product.Quantity}" 
                             step="1" min="1" max="1000" required="true"/>
             <lightning:button label="Add product" variant="brand" 

@@ -15,7 +15,6 @@
         component.set("v.productColumns", cols);
     },
 
-    //Need to add logic for mandatory selection of a product from the list.
     initProduct2: function(component) {
         var action = component.get("c.getAllProducts");
         action.setCallback(this, function(response) {
