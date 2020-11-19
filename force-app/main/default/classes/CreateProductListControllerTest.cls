@@ -4,7 +4,6 @@ public with sharing class CreateProductListControllerTest {
     private static String PRICE_BOOK_ID = '01s2y000000wTxMAAU';
     private static String INVALID_PRODUCT = 'The expected product is not null.';
     private static String INVALID_AMOUNT = 'The expected value is not 0.';
-    private static String INVALID_PRICEBOOK = 'The expected pricebook is not null.';
 
     @IsTest
     static void createProductTest() {
