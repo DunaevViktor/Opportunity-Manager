@@ -1,7 +1,7 @@
 ({
     initColumns: function(component) {
         component.set('v.columns', [
-            {label: 'Contact', fieldName: 'ContactId', type: 'text'},
+            {label: 'Contact', fieldName: 'ContactName', type: 'text'},
             {label: 'Role', fieldName: 'Role', type: 'text'},
             {label: 'Action', type: 'button', typeAttributes: { label: 'Delete', name: 'delete'}}
         ]);
@@ -59,13 +59,28 @@
         let role = component.get("v.Role");
         let roles = component.get("v.Roles");
         component.set("v.isEmpty", false);
+        //component.set("v.errorDuplicate", false);
 
         role.Role = component.find("role").get("v.value");
         var selectedContacts = component.find("contactsTable").getSelectedRows();
         role.ContactId = selectedContacts[0].Id;
 
+
+        /*for(let i=0; i<roles.length(); i++){
+            if(roles[i].ContactId == role.ContactId){
+                component.set("v.errorDuplicate", true);
+                component.set("v.messageDuplicate", 'You already have a Contact Role with this Contact!');
+                return;
+            }
+        }*/
+
         roles.push(role);
         component.set("v.Roles", roles);
+
+        var RolesView = component.get("v.RolesView");
+        role.ContactName = selectedContacts[0].Name;
+        RolesView.push(role);
+        component.set("v.RolesView", RolesView);
 
         this.updatePrimarySelectList(component, role);
         this.setEmptyRole(component);
@@ -91,10 +106,14 @@
 
         switch(action.name){
             case 'delete': {
-                var rows = component.get('v.Roles');
+                var rows = component.get('v.RolesView');
                 var rowIndex = rows.indexOf(row);
                 rows.splice(rowIndex, 1);
-                component.set('v.Roles', rows);
+                component.set('v.RolesView', rows);
+
+                /* new delete logic here
+                delete from Roles and primaryContactSelectList
+                */
 
                 if(rows.length == 0) {
                     component.set("v.isEmpty", true);  
@@ -110,6 +129,8 @@
         action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
+                var obj = response.getReturnValue();
+                component.set("v.defaultPLvalue", obj[0]);
                 component.set("v.picklistValues", response.getReturnValue());                
             }
             else {
@@ -135,7 +156,7 @@
     updatePrimarySelectList: function(component, contactItem){
         var primaryContactList = component.get("v.primaryContactSelectList");
         primaryContactList.push({
-            "label": contactItem.ContactId,
+            "label": contactItem.ContactName,
             "value": contactItem.ContactId
         });
         component.set("v.primaryContactSelectList", primaryContactList);

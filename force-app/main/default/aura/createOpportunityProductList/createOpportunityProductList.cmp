@@ -32,7 +32,7 @@
         <lightning:card title="Create Product">
             <!--max 1.000.000$ and 1000 quantity-->
             <lightning:input aura:id="price" type="number" 
-                            label="Total Price" 
+                            label="Unit Price" 
                             formatter="currency" step="0.01" min="0.01" max="1000000" required="true"/>
             <lightning:input aura:id="quantity" type="number" 
                             label="Quantity" value="{!v.Product.Quantity}" 
