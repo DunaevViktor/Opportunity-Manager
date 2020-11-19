@@ -24,4 +24,8 @@
     handleRowAction: function (component, event, helper) {
         helper.deleteRole(component, event);
     },
+
+    changePrimaryContact: function(component, event, helper){
+        helper.selectPrimaryContact(component, event);
+    },
 })

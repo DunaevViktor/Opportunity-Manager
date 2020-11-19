@@ -3,7 +3,6 @@
         component.set('v.columns', [
             {label: 'Contact', fieldName: 'ContactId', type: 'text'},
             {label: 'Role', fieldName: 'Role', type: 'text'},
-            {label: 'Primary', fieldName: 'IsPrimary', type: 'checkbox'},
             {label: 'Action', type: 'button', typeAttributes: { label: 'Delete', name: 'delete'}}
         ]);
 
@@ -62,13 +61,13 @@
         component.set("v.isEmpty", false);
 
         role.Role = component.find("role").get("v.value");
-        role.IsPrimary = component.find("primary").get("v.checked");
         var selectedContacts = component.find("contactsTable").getSelectedRows();
         role.ContactId = selectedContacts[0].Id;
 
         roles.push(role);
         component.set("v.Roles", roles);
-        
+
+        this.updatePrimarySelectList(component, role);
         this.setEmptyRole(component);
     },
 
@@ -119,6 +118,27 @@
         });
 
         $A.enqueueAction(action);
+    },
+
+    selectPrimaryContact: function(component, event){
+        var selectedContact = event.getParam("value");
+        var contactRoles = component.get("v.Roles");
+        contactRoles.forEach(role => {
+            role.IsPrimary = false;
+            if(role.ContactId == selectedContact){
+                role.IsPrimary = true;
+            }
+        });
+        component.set("v.Roles", contactRoles);
+    },
+
+    updatePrimarySelectList: function(component, contactItem){
+        var primaryContactList = component.get("v.primaryContactSelectList");
+        primaryContactList.push({
+            "label": contactItem.ContactId,
+            "value": contactItem.ContactId
+        });
+        component.set("v.primaryContactSelectList", primaryContactList);
     },
 
 })

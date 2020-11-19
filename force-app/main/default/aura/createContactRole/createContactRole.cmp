@@ -10,6 +10,7 @@
     <aura:attribute name="showError" type="Boolean" default="false"/>
     <aura:attribute name="message" type="String"/>
     <aura:attribute name="picklistValues" type="List"/>
+    <aura:attribute name="primaryContactSelectList" type="List"/>
 
     <aura:handler  name="init" value="{!this}" action="{!c.doInit}"/>
 
@@ -37,7 +38,6 @@
                     <option value="{!rolePL}" text="{!rolePL}"></option>
                 </aura:iteration>    
             </lightning:select>
-            <lightning:input aura:id="primary" type="checkbox" label="Primary"/>
             <lightning:button label="Add Role" variant="brand" 
                               class="btn-style" onclick="{!c.handleSaveRole}" />
         </lightning:card>
@@ -52,6 +52,8 @@
                         hideCheckboxColumn="true"
                         onrowaction="{!c.handleRowAction}"/>
             </lightning:card>
+            <lightning:combobox aura:id="primaryContact" label="Primary Contact (Optional)" 
+                                options="{!v.primaryContactSelectList}" onchange="{!c.changePrimaryContact}"/>
         </aura:set>
     </aura:if> 
 
