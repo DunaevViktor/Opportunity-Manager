@@ -13,8 +13,8 @@
     <aura:attribute name="picklistValues" type="List"/>
     <aura:attribute name="primaryContactSelectList" type="List" default="[{label: '--None--', value: 'none'}]"/>
     <aura:attribute name="defaultPLvalue" type="String"/>
-    <!--<aura:attribute name="errorDuplicate" type="Boolean" default="false"/>
-    <aura:attribute name="messageDuplicate" type="String"/>-->
+    <aura:attribute name="errorDuplicate" type="Boolean" default="false"/>
+    <aura:attribute name="messageDuplicate" type="String"/>
 
     <aura:handler  name="init" value="{!this}" action="{!c.doInit}"/>
 
@@ -46,12 +46,12 @@
         <lightning:button label="Add Role" variant="brand" 
                           class="btn-style" onclick="{!c.handleSaveRole}" />
 
-        <!--<aura:if isTrue="{!v.errorDuplicate}">
+        <aura:if isTrue="{!v.errorDuplicate}">
             <div class="slds-align_absolute-center slds-text-color_error">
                 <br/>
                 {!v.messageDuplicate}
             </div>
-        </aura:if>-->
+        </aura:if>
     </lightning:card>
 
     <aura:if isTrue="{!v.isEmpty}">

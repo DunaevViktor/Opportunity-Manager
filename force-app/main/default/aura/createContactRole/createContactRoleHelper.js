@@ -58,22 +58,22 @@
     addRole: function(component) {
         let role = component.get("v.Role");
         let roles = component.get("v.Roles");
-        component.set("v.isEmpty", false);
-        //component.set("v.errorDuplicate", false);
+        component.set("v.errorDuplicate", false);
 
         role.Role = component.find("role").get("v.value");
         var selectedContacts = component.find("contactsTable").getSelectedRows();
         role.ContactId = selectedContacts[0].Id;
 
 
-        /*for(let i=0; i<roles.length(); i++){
+        for(let i=0; i<roles.length; i++){
             if(roles[i].ContactId == role.ContactId){
                 component.set("v.errorDuplicate", true);
                 component.set("v.messageDuplicate", 'You already have a Contact Role with this Contact!');
                 return;
             }
-        }*/
+        }
 
+        component.set("v.isEmpty", false);
         roles.push(role);
         component.set("v.Roles", roles);
 
@@ -107,13 +107,22 @@
         switch(action.name){
             case 'delete': {
                 var rows = component.get('v.RolesView');
+                var rowsToInsert = component.get('v.Roles');
                 var rowIndex = rows.indexOf(row);
                 rows.splice(rowIndex, 1);
+                rowsToInsert.splice(rowIndex, 1);
+                component.set('v.Roles', rowsToInsert);
                 component.set('v.RolesView', rows);
 
-                /* new delete logic here
-                delete from Roles and primaryContactSelectList
-                */
+                var index = 0;
+                var primaryCL = component.get("v.primaryContactSelectList");
+                for(let i=0; i<primaryCL.length; i++){
+                    if(primaryCL[i].value == row.ContactId){
+                        index = i;
+                    }
+                }
+                primaryCL.splice(index, 1);
+                component.set('v.primaryContactSelectList', primaryCL);
 
                 if(rows.length == 0) {
                     component.set("v.isEmpty", true);  
